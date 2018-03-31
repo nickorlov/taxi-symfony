@@ -38,6 +38,8 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     paths: ["%kernel.project_dir%/src/AppBundle/Resources/views"]
+    form_themes:
+        - 'form/bootstrap_3_layout.html.twig'
 
 # Doctrine Configuration
 doctrine:
