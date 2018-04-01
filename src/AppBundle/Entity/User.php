@@ -14,6 +14,7 @@ class User extends BaseUser
 {
     /**
      * @var int
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -22,6 +23,7 @@ class User extends BaseUser
 
     /**
      * @var int
+     *
      * @ORM\ManyToMany(targetEntity="Car")
      * @ORM\JoinTable(name="users_cars",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
@@ -32,14 +34,31 @@ class User extends BaseUser
 
     /**
      * @var int
-     * @ORM\ManyToMany(targetEntity="Role")
-     * @ORM\JoinTable(name="users_roles",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="car_id", referencedColumnName="id")}
-     *      )
+     *
+     * @ORM\OneToOne(targetEntity="Car")
+     * @ORM\JoinColumn(name="current_car_id", referencedColumnName="id")
      */
-    private $roles;
+    protected $current_car;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Role")
+     * @ORM\JoinColumn(name="role_id", referencedColumnName="id")
+     */
+    protected $role;
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         parent::__construct();

@@ -38,15 +38,25 @@ class Order
     /**
      * @var string
      *
-     * @ORM\Column(name="finished", type="string", columnDefinition="ENUM('yes', 'no')")
+     * @ORM\Column(name="finished", type="boolean")
      */
     private $finished;
 
     /**
+     * @var int
+     *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="driver_id", referencedColumnName="id")
      */
     private $driver;
+
+    /**
+     * @var int
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
+     */
+    private $client;
 
 
     /**
@@ -110,7 +120,7 @@ class Order
     /**
      * Set finished
      *
-     * @param string $finished
+     * @param bool $finished
      *
      * @return Order
      */
@@ -124,11 +134,59 @@ class Order
     /**
      * Get finished
      *
-     * @return string
+     * @return bool
      */
     public function getFinished()
     {
         return $this->finished;
+    }
+
+    /**
+     * Set driver
+     *
+     * @param string $driver
+     *
+     * @return Order
+     */
+    public function setDriver($driver)
+    {
+        $this->driver = $driver;
+
+        return $this;
+    }
+
+    /**
+     * Get driver
+     *
+     * @return string
+     */
+    public function getDriver()
+    {
+        return $this->driver;
+    }
+
+    /**
+     * Set client
+     *
+     * @param string $client
+     *
+     * @return Order
+     */
+    public function setClient($client)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return string
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 }
 
