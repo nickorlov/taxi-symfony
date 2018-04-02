@@ -3,19 +3,34 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class UserController
+class UserController extends Controller
 {
     /**
-     * @Route("/create-")
+     * @Route("/users")
      */
-    public function numberAction()
+    public function showAction()
     {
-        $number = mt_rand(0, 100);
+        $users = $this->getDoctrine()
+            ->getRepository('AppBundle:User')
+            ->findAll();
 
-        return new Response(
-            '<html><body>Lucky number: ' . $number . '</body></html>'
+        if (!$users) {
+            throw $this->createNotFoundException(
+                'No users found!'
+            );
+        }
+
+        return $this->render(
+            'user/index.html.twig',
+            [
+                'users' => $users
+            ]
         );
     }
 }
