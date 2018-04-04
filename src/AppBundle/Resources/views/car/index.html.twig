@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cars{% endblock title %}
+
+{% block body %}
+    <table class="table table-dark">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Numbers</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for car in cars %}
+            <tr>
+                <th scope="row">{{ car.id }}</th>
+                <td>{{ car.name }}</td>
+                <td>{{ car.numbers }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

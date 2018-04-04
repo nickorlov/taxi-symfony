@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Order
  *
- * @ORM\Table(name="order")
+ * @ORM\Table(name="`order`")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\OrderRepository")
  */
 class Order
@@ -38,7 +38,7 @@ class Order
     /**
      * @var string
      *
-     * @ORM\Column(name="finished", type="boolean")
+     * @ORM\Column(name="finished", type="string", length=10)
      */
     private $finished;
 
@@ -187,6 +187,11 @@ class Order
     public function getClient()
     {
         return $this->client;
+    }
+
+    public function __construct()
+    {
+        $this->finished = "NO";
     }
 }
 

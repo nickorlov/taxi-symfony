@@ -87,6 +87,15 @@ class User extends BaseUser
     protected $current_car;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Group")
+     * @ORM\JoinTable(name="user_user_group",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    protected $groups;
+
+    /**
      * Get id
      *
      * @return int
@@ -151,8 +160,8 @@ class User extends BaseUser
     {
         parent::__construct();
 
-        $this->cars = new ArrayCollection();
+        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
 
-        $this->roles = array('ROLE_USER');
+        $this->roles[] = 'ROLE_USER';
     }
 }

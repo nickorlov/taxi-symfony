@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class UserController extends Controller
 {
     /**
-     * @Route("/users")
+     * @Route("/admin/users")
      */
     public function showAction()
     {

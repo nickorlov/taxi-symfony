@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add a car{% endblock title %}
+
+{% block body %}
+    <h2>Add a car</h2>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock body %}

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Orders{% endblock title %}
+
+{% block body %}
+    <table class="table table-dark">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Route</th>
+            <th scope="col">Date</th>
+            <th scope="col">Finished</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <th scope="row">{{ order.id }}</th>
+                <td>{{ order.route }}</td>
+                <td>{{ order.date|date("m/d/Y") }}</td>
+                <td>{{ order.finished }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
