@@ -40,7 +40,7 @@ class Order
      *
      * @ORM\Column(name="finished", type="string", length=10)
      */
-    private $finished;
+    private $finished = "NO";
 
     /**
      * @var int
@@ -120,13 +120,11 @@ class Order
     /**
      * Set finished
      *
-     * @param bool $finished
-     *
      * @return Order
      */
-    public function setFinished($finished)
+    public function setFinished()
     {
-        $this->finished = $finished;
+        $this->finished = 'YES';
 
         return $this;
     }
@@ -187,11 +185,6 @@ class Order
     public function getClient()
     {
         return $this->client;
-    }
-
-    public function __construct()
-    {
-        $this->finished = "NO";
     }
 }
 

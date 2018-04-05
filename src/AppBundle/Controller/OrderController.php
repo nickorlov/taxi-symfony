@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\AppBundle;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Order;
@@ -10,8 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
 
 class OrderController extends Controller
@@ -23,23 +25,33 @@ class OrderController extends Controller
     {
         $order = new Order();
 
-        $repository = $this->getDoctrine()->getRepository('AppBundle:User');
-        $drivers = $repository->find(1)->getName();
-        var_dump($drivers);
-
         $form = $this->createFormBuilder($order)
             ->add('route', TextType::class)
-            ->add('date', DateType::class)
-            ->add('driver', ChoiceType::class, [
-                    'choices' => [
-                        'ROLE_ADMIN' => 'ROLE_ADMIN',
-                        'ROLE_USER' => 'ROLE_USER',
-                        'ROLE_DRIVER' => 'ROLE_DRIVER',
-                        'ROLE_MANAGER' => 'ROLE_MANAGER'
-                    ]
+            ->add('date', DateTimeType::class)
+            ->add('driver', EntityType::class, [
+                    'class' => 'AppBundle:User',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            ->where('u.roles LIKE :role')
+                            ->setParameter('role', '%"ROLE_DRIVER"%');
+                    },
+                    'choice_label' => function ($driver) {
+                        return $driver->getName() . ' ' . $driver->getSurname();
+                    }
                 ]
             )
-            ->add('client', TextType::class)
+            ->add('client', EntityType::class, [
+                    'class' => 'AppBundle:User',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            ->where('u.roles LIKE :role')
+                            ->setParameter('role', '%"ROLE_USER"%');
+                    },
+                    'choice_label' => function ($driver) {
+                        return $driver->getName() . ' ' . $driver->getSurname();
+                    }
+                ]
+            )
             ->add('submit', SubmitType::class, array('label' => 'Create a order'))
             ->getForm();
 
@@ -57,7 +69,7 @@ class OrderController extends Controller
         }
 
         return $this->render('order/addOrder.html.twig', array(
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ));
     }
 
@@ -68,7 +80,7 @@ class OrderController extends Controller
     {
         $orders = $this->getDoctrine()
             ->getRepository('AppBundle:Order')
-            ->findAll();
+            ->findJoinedToUser();
 
         if (!$orders) {
             throw $this->createNotFoundException(

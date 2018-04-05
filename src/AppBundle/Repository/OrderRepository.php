@@ -10,12 +10,18 @@ namespace AppBundle\Repository;
  */
 class OrderRepository extends \Doctrine\ORM\EntityRepository
 {
-    /*    public function findAllOrderedByName()
-        {
-            return $this->getEntityManager()
-                ->createQuery(
-                    'SELECT p FROM AppBundle:Product p ORDER BY p.name ASC'
-                )
-                ->getResult();
-        }*/
+    public function findJoinedToUser()
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT p, c FROM AppBundle:Order p
+        JOIN p.client c'
+            );
+
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
 }

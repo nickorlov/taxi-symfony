@@ -9,6 +9,8 @@
             <th scope="col">#</th>
             <th scope="col">Route</th>
             <th scope="col">Date</th>
+            <th scope="col">Client</th>
+            <th scope="col">Driver</th>
             <th scope="col">Finished</th>
         </tr>
         </thead>
@@ -17,7 +19,9 @@
             <tr>
                 <th scope="row">{{ order.id }}</th>
                 <td>{{ order.route }}</td>
-                <td>{{ order.date|date("m/d/Y") }}</td>
+                <td>{{ order.date|date("m/d/Y H:i:s") }}</td>
+                <td>{{ order.client.name }} {{ order.client.surname }}</td>
+                <td>{{ order.driver.name }} {{ order.driver.surname }}</td>
                 <td>{{ order.finished }}</td>
             </tr>
         {% endfor %}
