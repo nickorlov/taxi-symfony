@@ -9,6 +9,7 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Numbers</th>
+            <th scope="col">Driver</th>
         </tr>
         </thead>
         <tbody>
@@ -17,6 +18,11 @@
                 <th scope="row">{{ car.id }}</th>
                 <td>{{ car.name }}</td>
                 <td>{{ car.numbers }}</td>
+                <td>
+                    {% for cardriver in car.drivers %}
+                        {{ cardriver.name }} {{ cardriver.surname }}{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>

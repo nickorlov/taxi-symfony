@@ -18,7 +18,7 @@ class UserController extends Controller
     {
         $users = $this->getDoctrine()
             ->getRepository('AppBundle:User')
-            ->findAll();
+            ->findJoinedToCar();
 
         if (!$users) {
             throw $this->createNotFoundException(

@@ -52,7 +52,7 @@ class CarController extends Controller
     {
         $cars = $this->getDoctrine()
             ->getRepository('AppBundle:Car')
-            ->findAll();
+            ->findJoinedToUser();
 
         if (!$cars) {
             throw $this->createNotFoundException(
@@ -66,5 +66,45 @@ class CarController extends Controller
                 'cars' => $cars
             ]
         );
+    }
+
+    /**
+     * @Route("/admin/edit-car")
+     */
+    public function changeAction(Request $request)
+    {
+
+        $users = $this->getDoctrine()
+            ->getRepository('AppBundle:User')
+            ->findAll();
+
+        if (!$users) {
+            throw $this->createNotFoundException(
+                'No items found!'
+            );
+        }
+
+        return $this->render(
+            'car/index.html.twig',
+            [
+                'cars' => $users
+            ]
+        );
+
+        $em = $this->getDoctrine()->getManager();
+
+        $car = $em->getRepository('AppBundle:Car')
+            ->find(1);
+
+        $user = $em->getRepository('AppBundle:User')
+            ->find(4);
+
+        $user->addCar($car);
+
+        $em->persist($user);
+        $em->persist($car);
+        $em->flush();
+
+        return new Response('done');
     }
 }

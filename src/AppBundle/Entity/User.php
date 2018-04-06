@@ -70,11 +70,8 @@ class User extends BaseUser
     /**
      * @var int
      *
-     * @ORM\ManyToMany(targetEntity="Car")
-     * @ORM\JoinTable(name="users_cars",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="car_id", referencedColumnName="id")}
-     *      )
+     * @ORM\ManyToMany(targetEntity="Car", inversedBy="drivers")
+     * @ORM\JoinTable(name="users_cars")
      */
     protected $cars;
 
@@ -85,15 +82,6 @@ class User extends BaseUser
      * @ORM\JoinColumn(name="current_car_id", referencedColumnName="id")
      */
     protected $current_car;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Group")
-     * @ORM\JoinTable(name="user_user_group",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
-     */
-    protected $groups;
 
     /**
      * Get id
@@ -154,13 +142,29 @@ class User extends BaseUser
     }
 
     /**
+     * @param Car $car
+     */
+    public function addCar(Car $car)
+    {
+        $this->cars[] = $car;
+    }
+
+    /**
+     * @return ArrayCollection|int
+     */
+    public function getCars()
+    {
+        return $this->cars;
+    }
+
+    /**
      * User constructor.
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->cars = new ArrayCollection();
 
         $this->roles[] = 'ROLE_USER';
     }

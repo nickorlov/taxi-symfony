@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CarRepository")
@@ -31,6 +32,14 @@ class Car
      */
     private $numbers;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="cars")
+     */
+    private $drivers;
+
+    /**
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
@@ -66,5 +75,29 @@ class Car
     public function setNumbers($numbers)
     {
         $this->numbers = $numbers;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function addDriver(User $user)
+    {
+        $this->drivers[] = $user;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getDrivers()
+    {
+        return $this->drivers;
+    }
+
+    /**
+     * Car constructor.
+     */
+    public function __construct()
+    {
+        $this->drivers = new ArrayCollection();
     }
 }

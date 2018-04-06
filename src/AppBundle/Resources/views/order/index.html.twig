@@ -11,6 +11,7 @@
             <th scope="col">Date</th>
             <th scope="col">Client</th>
             <th scope="col">Driver</th>
+            <th scope="col">Manager</th>
             <th scope="col">Finished</th>
         </tr>
         </thead>
@@ -22,7 +23,16 @@
                 <td>{{ order.date|date("m/d/Y H:i:s") }}</td>
                 <td>{{ order.client.name }} {{ order.client.surname }}</td>
                 <td>{{ order.driver.name }} {{ order.driver.surname }}</td>
-                <td>{{ order.finished }}</td>
+                <td>{{ order.manager.name }} {{ order.manager.surname }}</td>
+                <td>
+                    {% if order.finished == 'NO' %}
+                        <form action="" method="post">
+                            <button name="finish" value="{{ order.id }}" type="submit">Finish</button>
+                        </form>
+                    {% else %}
+                        {{ order.finished }}
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>

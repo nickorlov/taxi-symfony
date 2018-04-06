@@ -6,6 +6,7 @@ use AppBundle\AppBundle;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Order;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,6 +25,7 @@ class OrderController extends Controller
     public function addAction(Request $request)
     {
         $order = new Order();
+        $manager = $this->get('security.token_storage')->getToken()->getUser();
 
         $form = $this->createFormBuilder($order)
             ->add('route', TextType::class)
@@ -59,6 +61,7 @@ class OrderController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $order = $form->getData();
+            $order->setManager($manager);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($order);
@@ -78,6 +81,15 @@ class OrderController extends Controller
      */
     public function showAction()
     {
+        if (isset($_POST['finish'])) {
+            $finish = $_POST['finish'];
+
+            $em = $this->getDoctrine()->getEntityManager();
+            $item = $em->getRepository('AppBundle:Order')->find($finish);
+            $item->setFinished('YES');
+            $em->flush();
+        }
+
         $orders = $this->getDoctrine()
             ->getRepository('AppBundle:Order')
             ->findJoinedToUser();

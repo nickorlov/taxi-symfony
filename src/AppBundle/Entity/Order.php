@@ -58,6 +58,14 @@ class Order
      */
     private $client;
 
+    /**
+     * @var int
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="manager_id", referencedColumnName="id")
+     */
+    private $manager;
+
 
     /**
      * Get id
@@ -142,7 +150,7 @@ class Order
     /**
      * Set driver
      *
-     * @param string $driver
+     * @param int $driver
      *
      * @return Order
      */
@@ -156,7 +164,7 @@ class Order
     /**
      * Get driver
      *
-     * @return string
+     * @return int
      */
     public function getDriver()
     {
@@ -166,7 +174,7 @@ class Order
     /**
      * Set client
      *
-     * @param string $client
+     * @param int $client
      *
      * @return Order
      */
@@ -180,11 +188,35 @@ class Order
     /**
      * Get client
      *
-     * @return string
+     * @return int
      */
     public function getClient()
     {
         return $this->client;
+    }
+
+    /**
+     * Set manager
+     *
+     * @param int $manager
+     *
+     * @return Order
+     */
+    public function setManager($manager)
+    {
+        $this->manager = $manager;
+
+        return $this;
+    }
+
+    /**
+     * Get manager
+     *
+     * @return int
+     */
+    public function getManager()
+    {
+        return $this->manager;
     }
 }
 

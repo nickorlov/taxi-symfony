@@ -11,6 +11,7 @@
             <th scope="col">Surname</th>
             <th scope="col">Phone</th>
             <th scope="col">Role</th>
+            <th scope="col">Car</th>
         </tr>
         </thead>
         <tbody>
@@ -21,6 +22,11 @@
                 <td>{{ user.surname }}</td>
                 <td>{{ user.phone }}</td>
                 <td>{{ user.roles[0] }}</td>
+                <td>
+                    {% for usercar in user.cars %}
+                        {{ usercar.name }}{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>
