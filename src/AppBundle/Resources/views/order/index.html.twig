@@ -22,7 +22,7 @@
                 <td>{{ order.route }}</td>
                 <td>{{ order.date|date("m/d/Y H:i:s") }}</td>
                 <td>{{ order.client.name }} {{ order.client.surname }}</td>
-                <td>{{ order.driver.name }} {{ order.driver.surname }}</td>
+                <td>{% if order.driver %}{{ order.driver.name }} {{ order.driver.surname }}{% endif %}</td>
                 <td>{{ order.manager.name }} {{ order.manager.surname }}</td>
                 <td>
                     {% if order.finished == 'NO' %}

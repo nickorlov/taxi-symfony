@@ -90,3 +90,13 @@
 .overflow-hidden {
     overflow: hidden;
 }
+
+/*
+body.role_manager nav.site-header > div > a:nth-child(4),
+body.role_manager nav.site-header > div > a:nth-child(9),
+body.role_driver nav.site-header > div > a:nth-child(4),
+body.role_driver nav.site-header > div > a:nth-child(7),
+body.role_driver nav.site-header > div > a:nth-child(9)
+{
+    display: none !important;
+}*/

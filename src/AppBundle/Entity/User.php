@@ -150,6 +150,14 @@ class User extends BaseUser
     }
 
     /**
+     * @param Car $car
+     */
+    public function removeCar(Car $car)
+    {
+        $this->cars->removeElement($car);
+    }
+
+    /**
      * @return ArrayCollection|int
      */
     public function getCars()

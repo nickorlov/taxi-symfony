@@ -39,7 +39,8 @@ class OrderController extends Controller
                     },
                     'choice_label' => function ($driver) {
                         return $driver->getName() . ' ' . $driver->getSurname();
-                    }
+                    },
+                    'required' => false
                 ]
             )
             ->add('client', EntityType::class, [
@@ -93,6 +94,29 @@ class OrderController extends Controller
         $orders = $this->getDoctrine()
             ->getRepository('AppBundle:Order')
             ->findJoinedToUser();
+
+        if (!$orders) {
+            throw $this->createNotFoundException(
+                'No orders found!'
+            );
+        }
+
+        return $this->render(
+            'order/index.html.twig',
+            [
+                'orders' => $orders
+            ]
+        );
+    }
+
+    /**
+     * @Route("/admin/free-orders")
+     */
+    public function freeOrdersAction()
+    {
+        $orders = $this->getDoctrine()
+            ->getRepository('AppBundle:Order')
+            ->findFreeJoinedToUser();
 
         if (!$orders) {
             throw $this->createNotFoundException(

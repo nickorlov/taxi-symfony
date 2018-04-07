@@ -24,4 +24,19 @@ class OrderRepository extends \Doctrine\ORM\EntityRepository
             return null;
         }
     }
+
+    public function findFreeJoinedToUser()
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT p, c FROM AppBundle:ORDER p
+        JOIN p.client c WHERE p.driver IS NULL'
+            );
+
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }
 }

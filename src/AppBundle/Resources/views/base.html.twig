@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ asset('product.css') }}">
 </head>
 
-<body>
+<body class="{% block body_class %}{{ app.user.roles|default([])|join(' ')|lower }}{% endblock %}">
 
 <nav class="site-header sticky-top py-1 mb-5">
     <div class="container d-flex flex-column flex-md-row justify-content-between">
@@ -41,6 +41,8 @@
         <a class="py-2 d-none d-md-inline-block" href="/admin/cars">Cars</a>
         <a class="py-2 d-none d-md-inline-block" href="/admin/add-order">Add order</a>
         <a class="py-2 d-none d-md-inline-block" href="/admin/orders">Orders</a>
+        <a class="py-2 d-none d-md-inline-block" href="/admin/free-orders">Free orders</a>
+        <a class="py-2 d-none d-md-inline-block" href="/admin/set-car">Set Car</a>
     </div>
 </nav>
 
